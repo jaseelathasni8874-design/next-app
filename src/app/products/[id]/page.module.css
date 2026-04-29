@@ -1,0 +1,36 @@
+.container {
+  padding: 20px;
+}
+
+.card {
+  display: flex;
+  gap: 20px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  align-items: center;
+}
+
+.card img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+
+.info {
+  max-width: 500px;
+}
+
+.desc {
+  margin: 10px 0;
+  color: gray;
+}
+
+.btn {
+  padding: 10px 15px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
