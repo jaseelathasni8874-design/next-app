@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 
-export default function Products() {
+// 🔹 Inner component (uses searchParams safely)
+function ProductsContent() {
   const [products, setProducts] = useState([]);
 
   const searchParams = useSearchParams();
@@ -14,10 +15,9 @@ export default function Products() {
   useEffect(() => {
     fetch("https://dummyjson.com/products")
       .then((res) => res.json())
-      .then((data) => setProducts(data.products)); // ✅ FIXED
+      .then((data) => setProducts(data.products));
   }, []);
 
-  // ✅ FILTER PRODUCTS safely
   const filteredProducts = products.filter((p) =>
     p.title.toLowerCase().includes(search.toLowerCase())
   );
@@ -38,11 +38,9 @@ export default function Products() {
       <div className={styles.grid}>
         {filteredProducts.map((p) => (
           <div key={p.id} className={styles.card}>
-            {/* ✅ FIXED IMAGE */}
-            <img src={p.thumbnail} className={styles.image} />
+            <img src={p.thumbnail} className={styles.image} alt={p.title} />
 
             <h3 className={styles.title}>{p.title}</h3>
-
             <p className={styles.price}>₹{p.price}</p>
 
             <button
@@ -63,5 +61,14 @@ export default function Products() {
         <p>No products found 😢</p>
       )}
     </div>
+  );
+}
+
+// 🔹 Wrap with Suspense (MAIN FIX)
+export default function Products() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <ProductsContent />
+    </Suspense>
   );
 }

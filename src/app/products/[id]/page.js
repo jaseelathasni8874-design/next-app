@@ -1,18 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation"; // ✅ important
+import { useParams } from "next/navigation";
 import styles from "./page.module.css";
 
 export default function ProductDetail() {
-  const { id } = useParams(); // ✅ get id properly
+  const { id } = useParams();
 
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
     if (!id) return;
 
-   fetch(`https://dummyjson.com/products/${id}`)
+    fetch(`https://dummyjson.com/products/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch");
         return res.json();
@@ -25,7 +25,10 @@ export default function ProductDetail() {
 
   return (
     <div className={styles.container}>
-     <img src={product.thumbnail} alt={product.title} />
+      <img 
+        src={product.thumbnail} 
+        alt={product.title} 
+      />
 
       <h1>{product.title}</h1>
       <p>{product.description}</p>
